@@ -27,6 +27,11 @@ Void Linux currently packages the following Wayland compositors:
 - Hikari: a stacking compositor with some tiling features
 - Cage: a Wayland kiosk
 - River: a dynamic tiling Wayland compositor
+- labwc: a window-stacking compositor, inspired by Openbox
+- Qtile: a dynamic tiling Wayland compositor (via qtile-wayland)
+
+Some compositors do not depend on any [fonts](./fonts.md), which can cause many
+applications to not work. Install a font package to fix this.
 
 ### Video drivers
 
@@ -46,18 +51,15 @@ which can be either elogind or seatd. Enabling them is explained in the
 
 ### Native applications
 
-[Qt5](https://wayland.freedesktop.org/qt5.html)-based applications require
-installing the `qt5-wayland` package and setting the environment variable
-`QT_QPA_PLATFORM=wayland-egl` to enable their Wayland backend. Some KDE specific
-applications also require installing the `kwayland` package.
-[EFL](https://wayland.freedesktop.org/efl.html)-based applications require
-setting the environment variable `ELM_DISPLAY=wl`, and can have issues without
-it, due to not supporting XWayland properly. [SDL](https://libsdl.org)-based
-applications require setting the environment variable `SDL_VIDEODRIVER=wayland`.
-[GTK+](https://wiki.gnome.org/Initiatives/Wayland/GTK%2B)-based applications
-should use the Wayland backend automatically. Information about other toolkits
-can be found in the [Wayland
-documentation](https://wayland.freedesktop.org/toolkits.html).
+Qt5-based applications require installing the `qt5-wayland` package and setting
+the environment variable `QT_QPA_PLATFORM=wayland-egl` to enable their Wayland
+backend. Some KDE specific applications also require installing the `kwayland`
+package. EFL-based applications require setting the environment variable
+`ELM_DISPLAY=wl`, and can have issues without it, due to not supporting XWayland
+properly. [SDL](https://libsdl.org)-based applications require setting the
+environment variable `SDL_VIDEODRIVER=wayland`.
+[GTK+](https://wiki.gnome.org/Initiatives(2f)Wayland(2f)GTK(2b).html)-based
+applications should use the Wayland backend automatically.
 
 Media applications, such as [mpv(1)](https://man.voidlinux.org/mpv.1),
 [vlc(1)](https://man.voidlinux.org/vlc.1) and `imv` work natively on Wayland.
@@ -83,7 +85,7 @@ compositors, and is installed as a dependency for most of them. Its package is
 ## Configuration
 
 The Wayland library requires the
-[`XDG_RUNTIME_DIR`](../session-management.html#xdg_runtime_dir) environment
+[`XDG_RUNTIME_DIR`](../session-management.md#xdg_runtime_dir) environment
 variable to determine the directory for the Wayland socket.
 
 It is also possible that some applications use the `XDG_SESSION_TYPE`

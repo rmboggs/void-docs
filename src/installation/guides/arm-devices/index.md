@@ -27,16 +27,24 @@ thoroughly.
 
 ### Pre-built images
 
-After [downloading and verifying](../../index.md#downloading-installation-media)
-an image, it can be written to the relevant media with
-[cat(1)](https://man.voidlinux.org/cat.1),
+The pre-built images provided are prepared for 2GB SD cards. After [downloading
+and verifying](../../index.md#downloading-installation-media) an image, it can
+be uncompressed with [unxz(1)](https://man.voidlinux.org/unxz.1) and written to
+the relevant media with [cat(1)](https://man.voidlinux.org/cat.1),
 [pv(1)](https://man.voidlinux.org/pv.1), or
 [dd(1)](https://man.voidlinux.org/dd.1). For example, to flash it onto an SD
 card located at `/dev/mmcblk0`:
 
 ```
+$ unxz -k <image>.img.xz
 # dd if=<image>.img of=/dev/mmcblk0 bs=4M status=progress
 ```
+
+After flashing, the root partition can optionally be expanded to fit the storage
+device with [cfdisk(8)](https://man.voidlinux.org/cfdisk.8),
+[fdisk(8)](https://man.voidlinux.org/fdisk.8), or another partitioning tool, and
+the filesystem can be resized to fit the expanded partition with
+[resize2fs(8)](https://man.voidlinux.org/resize2fs.8).
 
 ### Custom partition layout
 
@@ -88,27 +96,17 @@ using [tar(1)](https://man.voidlinux.org/tar.1):
 
 #### Chroot installation
 
-It is also possible to perform a chroot installation, which can require the
-`qemu-user-static` package together with either the `binfmt-support` or `proot`
-package if a computer with an incompatible architecture (such as i686) is being
-used. This guide explains how to use the `qemu-<platform>-static` program from
-`qemu-user-static` with [proot(1)](https://man.voidlinux.org/proot.1).
-
-First, [prepare your storage medium](#custom-partition-layout). Then, follow
-either the [XBPS chroot installation](../chroot.md#the-xbps-method) or the
-[ROOTFS chroot installation](../chroot.md#the-rootfs-method) steps, using the
+It is also possible to perform a [chroot installation](../chroot.md) using the
 appropriate architecture and base packages, some of which are listed in the
-"[Supported Platforms](./platforms.md)" section.
+"[Supported Platforms](./platforms.md)" section. Make sure to [prepare your
+storage medium](#custom-partition-layout) properly for the device.
 
-Finally, follow the [chroot configuration steps](../chroot.md#configuration)
-steps, but instead of using the [chroot(1)](https://man.voidlinux.org/chroot.1)
-command to [enter the chroot](../chroot.md#entering-the-chroot), use the
-following command, replacing `<platform>` with `arm` for armv6l and armv7l
-devices, and with `aarch64` for aarch64 devices:
-
-```
-# proot -q qemu-<platform>-static -r /mnt -w /
-```
+If doing this from a computer with an incompatible archtecture (such as x86_64),
+install `binfmt-support`, enable the `binfmt-support` service, and install the
+relevant QEMU user emulator (like `qemu-user-aarch64` for aarch64 or
+`qemu-user-arm` for 32-bit ARM) before installing. If `binfmt-support` was
+installed after the QEMU user emulator, use `xbps-reconfigure -f
+qemu-user-<arch>` to enable the relevant binfmts.
 
 ## Configuration
 

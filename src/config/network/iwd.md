@@ -20,11 +20,6 @@ operate `iwctl`.
 
 ## Configuration
 
-Configuration options and examples are described below. Consult the relevant
-manual pages and the [upstream
-documentation](https://iwd.wiki.kernel.org/networkconfigurationsettings) for
-further information.
-
 ### Daemon configuration
 
 The main configuration file is located in `/etc/iwd/main.conf`. If it does not

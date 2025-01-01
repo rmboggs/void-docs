@@ -23,6 +23,39 @@ instead.
 | Ruby     | gem                            | `ruby-devel`    |
 | lua      | luarocks                       | `lua-devel`     |
 
+### Java
+
+Void provides LTS versions of the OpenJDK development kits and runtimes.
+Currently, versions 8, 11, 17, and 21 are available. To run Java-based
+applications, install the Java Runtime Environment of the desired version. To
+build Java-based programs, install the Java Development Kit of the desired
+version (and optionally other components listed below).
+
+| Void Package           | Description              |
+|------------------------|--------------------------|
+| `openjdkX`             | Java Development Kit     |
+| `openjdkX-jre`         | Java Runtime Environment |
+| `openjdkX-doc`         | Developer documentation  |
+| `openjdkX-src`         | Java source code         |
+| `openjdkX-jmods`       | Java modules             |
+| `openjdkX-static-libs` | Java static libraries    |
+
+To facilitate installing multiple Java versions in parallel, Void's OpenJDK
+packages use
+[`xbps-alternatives(1)`](https://man.voidlinux.org/man1/xbps-alternatives.1) to
+select the default JDK and JRE. Each `openjdkX` package provides the `jdk`
+alternative group, and each `openjdkX-jre` package provides the `java`
+alternative group.
+
+These alternative groups manage the symlinks at `/usr/lib/jvm/default-jdk` and
+`/usr/lib/jvm/default-jre`. These are used to set the `JAVA_HOME` environment
+variables and add Java utilities to your `PATH` via a profile script
+(`/etc/profile.d/jdk.sh`).
+
+When installing a Java package for the first time, you may need to re-login or
+run `source /etc/profile.d/jdk.sh` in your terminal session to update these
+variables.
+
 ## Restricted Packages
 
 Some packages have legal restrictions on their distribution (e.g. Discord), may
@@ -32,10 +65,10 @@ not built or distributed. As such, they must be built locally. For more
 information see the page on [restricted
 packages](../xbps/repositories/restricted.md).
 
-## Non-x86_64 Arch
+## Non-x86_64 Architectures
 
-The Void build system runs on x86_64 servers, both for compiling and cross
-compiling packages. However, some packages (e.g. `libreoffice`) do not support
+The Void build system runs on x86_64 servers, both for compiling and
+cross-compiling packages. However, some packages (e.g. `pandoc`) do not support
 cross-compilation. These packages have to be built locally on a computer running
 the same architecture and libc as the system on which the package is to be used.
 To learn how to build packages, refer to [the README for the void-packages
@@ -58,8 +91,8 @@ security and/or privacy-violating features of proprietary software.
 
 Some apps may not function properly (e.g. not being able to access the host
 system's files). Some of these issues can be fixed by installing one or more of
-the `xdg-desktop-portal`, `xdg-desktop-portal-gtk`, `xdg-user-dirs`,
-`xdg-user-dirs-gtk` or `xdg-utils` packages.
+the `xdg-user-dirs`, `xdg-user-dirs-gtk` or `xdg-utils` packages, and setting up
+[XDG Desktop Portals](./graphical-session/portals.md).
 
 Some Flatpaks require [D-Bus](./session-management.md#d-bus) and/or
 [Pulseaudio](./media/pulseaudio.md).
@@ -93,7 +126,7 @@ Steam can be installed either via a native package, which requires [enabling the
 "nonfree" repository](../xbps/repositories/index.md#nonfree), or via
 [Flatpak](#flatpak). The list of dependencies for different platforms and
 troubleshooting information for the native package can be found in its
-[Void-specific documentation](./package-documentation/index.html), while this
+[Void-specific documentation](./package-documentation/index.md), while this
 section deals with potential issues faced by Flatpak users.
 
 If you are using a different drive to store your game library, the

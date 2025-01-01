@@ -15,13 +15,14 @@ ZFSBootMenu officially considers Void a first-class distribution. ZFSBootMenu
 supports native ZFS encryption, offers a convenient recovery environment that
 can be used to clone prior snapshots or perform advanced manipulation in a
 pre-boot environment, and will support booting from any pool that is importable
-by modern ZFS drivers. The [ZFSBootMenu
-wiki](https://github.com/zbm-dev/zfsbootmenu/wiki) offers, among other content,
-several step-by-step guides for installing a Void system from scratch. The [UEFI
-guide](https://github.com/zbm-dev/zfsbootmenu/wiki/Void-Linux---Single-disk-UEFI)
+by modern ZFS drivers. The ZFSBootMenu documentation offers, among other
+content, several [step-by-step
+guides](https://docs.zfsbootmenu.org/en/latest/guides/void-linux.html) for
+installing a Void system from scratch. The [UEFI
+guide](https://docs.zfsbootmenu.org/en/latest/guides/void-linux/uefi.html)
 describes the procedure of bootstrapping a Void system for modern systems. For
 legacy BIOS systems, the [syslinux
-guide](https://github.com/zbm-dev/zfsbootmenu/wiki/Void-Linux----Single-disk-syslinux-MBR)
+guide](https://docs.zfsbootmenu.org/en/latest/guides/void-linux/syslinux-mbr.html)
 provides comparable instructions.
 
 ## Traditional bootloaders
@@ -164,21 +165,19 @@ the EFI system partition:
 ### Installation
 
 At this point, ordinary installation can proceed from the ["Base Installation"
-section](https://docs.voidlinux.org/installation/guides/chroot.html#base-installation).
-of the standard chroot installation guide. However, before following the
-["Finalization"
-instructions](https://docs.voidlinux.org/installation/guides/chroot.html#finalization),
-make sure that the `zfs` package has been installed and `dracut` is configured
-to identify a ZFS root filesystem:
+section](./chroot.md#base-installation). of the standard chroot installation
+guide. However, before following the ["Finalization"
+instructions](./chroot.md#finalization), make sure that the `zfs` package has
+been installed and `dracut` is configured to identify a ZFS root filesystem:
 
 ```
-(chroot) # mkdir -p /etc/dracut.conf.d
-(chroot) # cat > /etc/dracut.conf.d/zol.conf <<EOF
+[xchroot /mnt] # mkdir -p /etc/dracut.conf.d
+[xchroot /mnt] # cat > /etc/dracut.conf.d/zol.conf <<EOF
 nofsck="yes"
 add_dracutmodules+=" zfs "
 omit_dracutmodules+=" btrfs resume "
 EOF
-(chroot) # xbps-install zfs
+[xchroot /mnt] # xbps-install zfs
 ```
 
 Finally, follow the "Finalization" instructions and reboot into your new system.

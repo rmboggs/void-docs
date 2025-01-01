@@ -12,6 +12,10 @@ The default system timezone can be set by linking the timezone file to
 # ln -sf /usr/share/zoneinfo/<timezone> /etc/localtime
 ```
 
+> Note: If the variable `TIMEZONE` is set in `/etc/rc.conf`, it should be
+> removed or commented out, as this will override what has been set with `ln` on
+> reboot.
+
 To change the timezone on a per user basis, the `TZ` variable can be exported
 from your shell's profile:
 
@@ -42,7 +46,8 @@ For more details, see [hwclock(8)](https://man.voidlinux.org/hwclock.8).
 To maintain accuracy of your system's clock, you can use the [Network Time
 Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol) (NTP).
 
-Void provides packages for three NTP daemons: NTP, OpenNTPD and Chrony.
+Void provides packages for the following NTP daemons: NTP, OpenNTPD, Chrony and
+ntpd-rs.
 
 Once you have installed an NTP daemon, you can [enable the
 service](../config/services/index.md#managing-services) for it, either through
@@ -74,6 +79,16 @@ faster and with greater accuracy than NTP.
 The `chrony` package provides Chrony and the `chronyd` service.
 
 The Chrony site provides [a brief overview of its advantages over
-NTP](https://chrony.tuxfamily.org/faq.html#_how_does_chrony_compare_to_ntpd), as
+NTP](https://chrony-project.org/faq.html#_how_does_chrony_compare_to_ntpd), as
 well as [a detailed feature comparison between Chrony, NTP and
-OpenNTPD](https://chrony.tuxfamily.org/comparison.html).
+OpenNTPD](https://chrony-project.org/comparison.html).
+
+### ntpd-rs
+
+ntpd-rs is a full-featured NTP server and client implementation, including NTS
+support.
+
+The `ntpd-rs` package provides ntpd-rs and the `ntpd-rs` service.
+
+For further information and migration guides from other implementations, visit
+[the ntpd-rs docs](https://docs.ntpd-rs.pendulum-project.org/).
